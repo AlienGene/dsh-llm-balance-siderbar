@@ -1,0 +1,10 @@
+# dsh-llm-balance bundle patch — applied as one insert over the composed tree.
+#
+# The row is a PLAIN insert on purpose: the market's hot-mount path only accepts
+# a config-free insert, and an extra `config:` key here would force a `dsh web`
+# restart instead of a live mount. Every knob therefore defaults in
+# src/config.ts; to override one, edit this row (restart required) or add it to
+# the profile's own cordis.patch.yml under the same id.
+- insert:
+    - id: llm-balance
+      name: 'dsh-llm-balance'

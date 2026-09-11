@@ -1,0 +1,94 @@
+{
+  "name": "dsh-llm-balance",
+  "version": "0.7.1",
+  "description": "DSH plugin: an always-visible LLM balance / subscription-quota card in the bottom-right corner, with a three-state icon that switches between the current model's provider, an overall summary, and every configured source.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "dsh-bundle",
+    "deepseek",
+    "deepseek-harness",
+    "cordis",
+    "plugin",
+    "balance",
+    "quota",
+    "usage",
+    "kimi",
+    "moonshot",
+    "opencode",
+    "ui"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./state": {
+      "types": "./lib/state.d.ts",
+      "default": "./lib/state.js"
+    },
+    "./format": {
+      "types": "./lib/format.d.ts",
+      "default": "./lib/format.js"
+    },
+    "./client": "./client/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "client",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "author": "liuhui",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuhui/dsh-llm-balance.git"
+  },
+  "homepage": "https://github.com/liuhui/dsh-llm-balance#readme",
+  "bugs": {
+    "url": "https://github.com/liuhui/dsh-llm-balance/issues"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.client.json",
+    "test": "node --test test/*.test.mjs",
+    "preflight": "node scripts/preflight.mjs",
+    "verify-live": "node scripts/verify-live.mjs",
+    "prepack": "pnpm run build",
+    "check": "pnpm run typecheck && pnpm run build && pnpm test && pnpm run preflight"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-locale"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.31",
+    "react": "^18.3.1",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2"
+  }
+}

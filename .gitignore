@@ -1,0 +1,13 @@
+# Dependencies and local noise — never published, never committed.
+node_modules/
+pnpm-debug.log*
+npm-debug.log*
+.DS_Store
+*.tsbuildinfo
+
+# NOTE: lib/ and client/ are deliberately NOT ignored.
+# They are the build output (tsdown), and they are committed on purpose so a
+# GitHub install — `dsh plugin --profile web add github:liuhui/dsh-llm-balance`,
+# which fetches the repo with no build step of its own — gets a working plugin.
+# Run `pnpm run check` (typecheck + build + tests + preflight) before committing
+# after any change under src/.
