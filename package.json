@@ -43,7 +43,9 @@
     "client",
     "cordis.patch.yml",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "assets",
+    "docs"
   ],
   "license": "MIT",
   "author": "L.H",
