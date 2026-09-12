@@ -3,9 +3,6 @@
 所有配置都写在 `cordis.patch.yml` 里那一行的 `config:` 段；改动后重启 `dsh web` 生效。
 全部可选项，缺省值来自 `src/config.ts`。
 
-> 注意：为了能热挂载，插件行本身**不带 `config:`**。要覆盖默认值时给它加上 `config:` ——
-> 但加了之后该行需要重启 `dsh web` 才生效，这是 DSH 热挂载的限制。
-
 ## 完整示例
 
 ```yaml
