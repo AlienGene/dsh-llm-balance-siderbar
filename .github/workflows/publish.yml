@@ -1,0 +1,77 @@
+# Publish to npm from GitHub Actions with trusted publishing (OIDC).
+#
+# There is no NPM_TOKEN secret anywhere in this repository: npm trusts this
+# workflow's identity through the OIDC token that `id-token: write` lets GitHub
+# mint for the run. Configure the publisher once, on the package's npm page
+# (this is a 2FA-protected web action, it cannot be done from the CLI):
+#
+#   https://www.npmjs.com/package/dsh-llm-balance/settings
+#     Publisher      GitHub Actions
+#     Organization   AlienGene
+#     Repository     dsh-llm-balance-siderbar
+#     Workflow name  publish.yml
+#     Environment    (leave empty)
+#
+# Releasing: bump "version" in package.json, commit, then push a matching tag
+#
+#   npm version patch -m "v%s"     # or edit package.json by hand
+#   git push --follow-tags
+#
+# The tag and package.json must agree, or the run stops before publishing.
+
+name: Publish
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Node 22 bundles npm 10.x, and trusted publishing (the OIDC exchange
+      # behind it) only exists from npm 11.5.1. Without this the run fails at
+      # the publish step with a plain 404/401 against the registry.
+      - run: npm install --global npm@11
+
+      # The same gate as locally: typecheck, build, tests, preflight.
+      - run: pnpm run check
+
+      - name: The tag must match package.json
+        run: |
+          if [ "${GITHUB_REF_TYPE}" != "tag" ]; then
+            echo "::error::publishing runs from a version tag (v*), not from ${GITHUB_REF_NAME}"
+            exit 1
+          fi
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(node -p "require('./package.json').version")"
+          echo "tag=$tag  package.json=$pkg"
+          if [ "$tag" != "$pkg" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match package.json version ${pkg}"
+            exit 1
+          fi
+
+      # Deliberately no `registry-url` on setup-node and no NODE_AUTH_TOKEN:
+      # that writes `//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}` into
+      # .npmrc, and an empty token makes npm attempt token auth instead of the
+      # OIDC exchange. npm defaults to the public registry anyway.
+      - name: Publish
+        run: npm publish --provenance --access public
