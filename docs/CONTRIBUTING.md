@@ -37,12 +37,3 @@ pnpm run verify-live  # 只读真机探测：打印归一化后的余额/窗口�
 npm version patch -m "v%s"   # 或手改 package.json 的 version
 git push --follow-tags
 ```
-
-## 已知限制
-
-- Moonshot 余额按官方规范实现；本机未配置该 Key，未经真机验证。
-- 余额不做百分比与趋势预测：没有可信分母，低余额告警需要你配 `balanceThresholds`。
-- 未在 harness 注册路由的账号默认不显示（这是刻意的；用 `sources` 可强制显示）。
-- 订阅套餐名/会员等级（如 `ADVANCED`）不展示：卡片只保留「还剩多少」这一个问题。
-- OpenCode 的 `/v1/usage` 未写入官方文档（由社区发现），字段可能变动；若某套餐没有该接口，卡片显示「无额度接口」。
-- 热挂载要求行不带 `config:`；带配置的行需要重启 `dsh web`。
