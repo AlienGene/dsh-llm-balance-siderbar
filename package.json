@@ -1,7 +1,7 @@
 {
   "name": "dsh-llm-balance",
   "version": "0.7.1",
-  "description": "DSH plugin: an always-visible LLM balance / subscription-quota card in the bottom-right corner, with a three-state icon that switches between the current model's provider, an overall summary, and every configured source.",
+  "description": "DeepSeek Harness plugin for querying LLM service provider usage: reads each configured provider's remaining balance or subscription quota and shows it in an always-visible card in the web GUI.",
   "keywords": [
     "dsh",
     "dsh-plugin",
