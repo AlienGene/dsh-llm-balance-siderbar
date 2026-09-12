@@ -46,14 +46,14 @@
     "LICENSE"
   ],
   "license": "MIT",
-  "author": "liuhui",
+  "author": "AlienGene",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liuhui/dsh-llm-balance.git"
+    "url": "git+https://github.com/AlienGene/dsh-llm-balance-siderbar.git"
   },
-  "homepage": "https://github.com/liuhui/dsh-llm-balance#readme",
+  "homepage": "https://github.com/AlienGene/dsh-llm-balance-siderbar#readme",
   "bugs": {
-    "url": "https://github.com/liuhui/dsh-llm-balance/issues"
+    "url": "https://github.com/AlienGene/dsh-llm-balance-siderbar/issues"
   },
   "scripts": {
     "build": "tsdown",
